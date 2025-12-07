@@ -1,0 +1,42 @@
+{
+	"name": "vehicle-rental-system",
+	"version": "1.0.0",
+	"description": "Vehicle Rental Management System API Points",
+	"keywords": [
+		"vehicle",
+		"rental",
+		"system",
+		"backend",
+		"api",
+		"nodejs",
+		"typescript",
+		"express",
+		"postgresql"
+	],
+	"homepage": "https://github.com/md-zeon/vehicle-rental-system#readme",
+	"bugs": {
+		"url": "https://github.com/md-zeon/vehicle-rental-system/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/md-zeon/vehicle-rental-system.git"
+	},
+	"license": "ISC",
+	"author": "Zeanur Rahaman Zeon",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "tsx watch src/server.ts",
+		"build": "tsc"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.6",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3"
+	},
+	"dependencies": {
+		"dotenv": "^17.2.3",
+		"express": "^5.2.1",
+		"pg": "^8.16.3"
+	}
+}
