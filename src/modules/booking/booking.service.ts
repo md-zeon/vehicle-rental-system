@@ -23,8 +23,8 @@ const createBooking = async (payload: Record<string, unknown>) => {
 	const rentalDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
 	// Calculate total price
-	const dailyRate = vehicle.daily_rent_price; // 45
-	const totalPrice = dailyRate * rentalDays; // 45 * 6 = 270
+	const dailyRate = vehicle.daily_rent_price;
+	const totalPrice = dailyRate * rentalDays;
 
 	// Insert booking record
 	const result = await pool.query(
