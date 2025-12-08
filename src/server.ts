@@ -1,14 +1,8 @@
-import express from "express";
-const app = express();
+import app from "./app";
+import CONFIG from "./config";
 
-app.get("/", (req, res) => {
-	res.send("Hello, World!");
-});
-
-const PORT = process.env.PORT || 3000;
+const PORT = CONFIG.PORT || 5000;
 
 app.listen(PORT, () => {
-	console.log(`Server is running on port ${PORT}`);
+	console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-export default app;
