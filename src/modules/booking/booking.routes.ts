@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { bookingController } from "./booking.controller";
 import authorize from "../../middleware/auth";
+import updateExpiredBookings from "../../middleware/updateExpiredBookings";
 
 const router = Router();
 
@@ -18,9 +19,10 @@ router.get(
 	bookingController.getAllBookings,
 );
 
-// Update booking status based on user role and business rules
+// Update booking status based on user role and business rules and system actions
 router.put(
 	"/:bookingId",
+	updateExpiredBookings,
 	authorize("admin", "customer"),
 	bookingController.updateBookingStatus,
 );
