@@ -19,7 +19,7 @@ const getAllUsers = async (req: Request, res: Response) => {
 };
 
 const updateUser = async (req: Request, res: Response) => {
-	const userId = req.params.id;
+	const { userId } = req.params;
 	const isAdmin = req.user?.role === "admin";
 	const requesterId = req.user?.id;
 
@@ -56,7 +56,33 @@ const updateUser = async (req: Request, res: Response) => {
 	}
 };
 
+const deleteUser = async (req: Request, res: Response) => {
+	const { userId } = req.params;
+
+	try {
+		const result = await userService.deleteUser(userId as string);
+		if (result.rowCount === 0) {
+			return res.status(404).json({
+				success: false,
+				message: "User not found or cannot be deleted due to active bookings.",
+			});
+		}
+
+		res.status(200).json({
+			success: true,
+			message: "User deleted successfully.",
+		});
+	} catch (error: any) {
+		res.status(500).json({
+			success: false,
+			message: error.message || "An error occurred while deleting the user.",
+			errors: error,
+		});
+	}
+};
+
 export const userController = {
 	getAllUsers,
 	updateUser,
+	deleteUser,
 };

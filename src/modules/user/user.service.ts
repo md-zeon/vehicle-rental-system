@@ -67,9 +67,24 @@ const updateUser = async (
 	return result;
 };
 
+const deleteUser = async (userId: string) => {
+	const result = await pool.query(
+		`
+		DELETE FROM users
+		WHERE id = $1
+		AND id NOT IN (SELECT DISTINCT customer_id FROM bookings WHERE status = $2)
+		RETURNING *  
+	`,
+		[userId, "active"],
+	);
+
+	return result;
+};
+
 export const userService = {
 	getUserById,
 	getUserByEmail,
 	getAllUsers,
 	updateUser,
+	deleteUser,
 };
