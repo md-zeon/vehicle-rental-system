@@ -18,4 +18,11 @@ router.get(
 	bookingController.getAllBookings,
 );
 
+// Update booking status based on user role and business rules
+router.put(
+	"/:bookingId",
+	authorize("admin", "customer"),
+	bookingController.updateBookingStatus,
+);
+
 export const bookingRoutes = router;

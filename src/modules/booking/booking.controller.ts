@@ -80,7 +80,99 @@ const getAllBookings = async (req: Request, res: Response) => {
 	}
 };
 
+const updateBookingStatus = async (req: Request, res: Response) => {
+	const { bookingId } = req.params;
+	const { status } = req.body;
+	const isAdmin = req.user?.role === "admin";
+	const requesterId = req.user?.id;
+
+	try {
+		// Fetch the booking to ensure it exists
+		const bookingResult = await bookingService.getBookingById(
+			bookingId as string,
+		);
+		const booking = bookingResult.rows[0];
+		if (!booking) {
+			return res.status(404).json({
+				success: false,
+				message: "Booking not found",
+			});
+		}
+
+		// Business rules for status updates
+		if (!isAdmin) {
+			// Customers can only cancel their own bookings
+			if (booking.customer_id !== requesterId) {
+				return res.status(403).json({
+					success: false,
+					message:
+						"Forbidden: You do not have permission to update this booking",
+				});
+			}
+			if (status !== "cancelled") {
+				return res.status(400).json({
+					success: false,
+					message: "Invalid status update: Customers can only cancel bookings",
+				});
+			}
+			if (status === "cancelled") {
+				const currentDate = new Date();
+				const rentStartDate = new Date(booking.rent_start_date);
+				if (currentDate >= rentStartDate) {
+					return res.status(400).json({
+						success: false,
+						message: "Cannot cancel booking: Rental period has already started",
+					});
+				}
+			}
+		} else {
+			if (status !== "returned") {
+				return res.status(400).json({
+					success: false,
+					message:
+						"Invalid status update: Admins can only mark bookings as returned",
+				});
+			}
+		}
+
+		// Update the booking status
+		const updatedBooking = await bookingService.updateBookingStatus(
+			bookingId as string,
+			status,
+		);
+
+		// If booking is returned or cancelled, update vehicle status to 'available'
+		if (status === "returned" || status === "cancelled") {
+			const updatedVehicle = await vehicleService.updateVehicleStatus(
+				updatedBooking.rows[0].vehicle_id,
+				"available",
+			);
+			if (status === "returned") {
+				updatedBooking.rows[0].vehicle = {
+					availability_status: updatedVehicle.rows[0].availability_status,
+				};
+			}
+		}
+
+		res.status(200).json({
+			success: true,
+			message:
+				status === "cancelled"
+					? "Booking cancelled successfully"
+					: "Booking marked as returned. Vehicle is now available",
+			data: updatedBooking.rows[0],
+		});
+	} catch (error: any) {
+		res.status(500).json({
+			success: false,
+			message: error.message,
+			errors: error,
+		});
+	}
+};
+
 export const bookingController = {
 	createBooking,
 	getAllBookings,
+	updateBookingStatus,
 };

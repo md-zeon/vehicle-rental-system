@@ -27,7 +27,7 @@ const updateUser = async (req: Request, res: Response) => {
 	if (!isAdmin && requesterId !== userId) {
 		return res.status(403).json({
 			success: false,
-			message: "Unauthorized: You do not have permission to update this user.",
+			message: "Forbidden: You do not have permission to update this user.",
 		});
 	}
 

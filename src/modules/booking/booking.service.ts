@@ -62,8 +62,22 @@ const getAllBookings = async () => {
 	return result;
 };
 
+const updateBookingStatus = async (bookingId: string, status: string) => {
+	const result = await pool.query(
+		`
+			UPDATE bookings
+			SET status = $1
+			WHERE id = $2
+			RETURNING *;
+		`,
+		[status, bookingId],
+	);
+	return result;
+};
+
 export const bookingService = {
 	createBooking,
 	getBookingById,
 	getAllBookings,
+	updateBookingStatus,
 };
