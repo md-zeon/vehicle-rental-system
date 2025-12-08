@@ -55,12 +55,8 @@ const updateVehicle = async (
 		return vehicleExists;
 	}
 
-	// Merge existing vehicle data with the new payload
-	// This ensures that only provided fields are updated
-	console.log("Existing vehicle data:", vehicleExists.rows[0]);
-	console.log("payload data:", payload);
 	const updatedVehicle = { ...vehicleExists.rows[0], ...payload };
-	console.log("Updated vehicle data:", updatedVehicle);
+
 	const {
 		vehicle_name,
 		type,

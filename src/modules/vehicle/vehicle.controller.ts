@@ -46,14 +46,10 @@ const getVehicleById = async (req: Request, res: Response) => {
 
 const updateVehicle = async (req: Request, res: Response) => {
 	const { vehicleId } = req.params;
-	console.log("Updating vehicle with ID:", vehicleId);
-	console.log();
 	const result = await vehicleService.updateVehicle(
 		vehicleId as string,
 		req.body,
 	);
-	console.log();
-	console.log("Update Result:", result.rows);
 
 	if (result.rows.length === 0) {
 		return res.status(404).json({
