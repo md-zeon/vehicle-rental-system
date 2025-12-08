@@ -68,6 +68,7 @@ const updateUser = async (
 };
 
 export const userService = {
+	getUserById,
 	getUserByEmail,
 	getAllUsers,
 	updateUser,

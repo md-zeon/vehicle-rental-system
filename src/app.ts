@@ -3,6 +3,7 @@ import initializeDB from "./config/db";
 import { authRoutes } from "./modules/auth/auth.routes";
 import { vehicleRoutes } from "./modules/vehicle/vehicle.routes";
 import { userRoutes } from "./modules/user/user.routes";
+import { bookingRoutes } from "./modules/booking/booking.routes";
 const app = express();
 
 // Middleware to parse JSON requests
@@ -23,5 +24,8 @@ app.use("/api/v1/vehicles", vehicleRoutes);
 
 // User Routes
 app.use("/api/v1/users", userRoutes);
+
+// Booking Routes
+app.use("/api/v1/bookings", bookingRoutes);
 
 export default app;
