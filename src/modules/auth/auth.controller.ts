@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { authService } from "./auth.service";
 
 const registerUser = async (req: Request, res: Response) => {
-	console.log("Register User Payload:", req.body);
 	try {
 		const result = await authService.registerUser(req.body);
 

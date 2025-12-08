@@ -1,7 +1,6 @@
 import { pool } from "../../config/db";
 
 const registerUser = async (payload: Record<string, unknown>) => {
-	console.log(payload);
 	const { name, email, password, phone, role } = payload;
 
 	const result = await pool.query(
