@@ -16,4 +16,7 @@ router.get("/:vehicleId", vehicleController.getVehicleById);
 // Update vehicle details, price, or availability status (Admin only)
 router.put("/:vehicleId", authorize("admin"), vehicleController.updateVehicle);
 
+// Delete a vehicle (only if no active bookings exist)
+router.delete("/:vehicleId", authorize("admin"), vehicleController.deleteVehicle);
+
 export const vehicleRoutes = router;
