@@ -1,6 +1,6 @@
 import { pool } from "../../config/db";
 import bcrypt from "bcryptjs";
-import { userServices } from "../user/user.service";
+import { userService } from "../user/user.service";
 import jwt from "jsonwebtoken";
 import CONFIG from "../../config";
 
@@ -21,7 +21,7 @@ const registerUser = async (payload: Record<string, unknown>) => {
 
 const loginUser = async (payload: Record<string, unknown>) => {
 	const { email, password } = payload;
-	const result = await userServices.getUserByEmail(email as string);
+	const result = await userService.getUserByEmail(email as string);
 	if (result.rows.length === 0) {
 		return null;
 	}

@@ -10,6 +10,6 @@ const getUserByEmail = async (email: string) => {
 	return result;
 };
 
-export const userServices = {
+export const userService = {
 	getUserByEmail,
 };
