@@ -10,4 +10,7 @@ router.post("/", authorize("admin"), vehicleController.createVehicle);
 // Retrieve all vehicles in the system
 router.get("/", vehicleController.getAllVehicles);
 
+// Retrieve specific vehicle details
+router.get("/:vehicleId", vehicleController.getVehicleById);
+
 export const vehicleRoutes = router;
