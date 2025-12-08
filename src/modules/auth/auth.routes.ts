@@ -7,4 +7,7 @@ const router = Router();
 // Register a new user account
 router.post("/signup", authController.registerUser);
 
+// Login and receive JWT authentication token
+router.post("/signin", authController.loginUser);
+
 export const authRoutes = router;

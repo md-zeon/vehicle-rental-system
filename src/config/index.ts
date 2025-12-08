@@ -7,6 +7,7 @@ dotenv.config({
 const CONFIG = {
 	PORT: process.env.PORT || 5000,
 	DB_CONNECTION_STRING: process.env.DB_CONNECTION_STRING || "",
+	JWT_SECRET: process.env.JWT_SECRET,
 };
 
 export default CONFIG;
