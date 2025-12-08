@@ -13,4 +13,7 @@ router.get("/", vehicleController.getAllVehicles);
 // Retrieve specific vehicle details
 router.get("/:vehicleId", vehicleController.getVehicleById);
 
+// Update vehicle details, price, or availability status (Admin only)
+router.put("/:vehicleId", authorize("admin"), vehicleController.updateVehicle);
+
 export const vehicleRoutes = router;

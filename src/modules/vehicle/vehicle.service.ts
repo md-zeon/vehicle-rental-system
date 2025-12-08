@@ -46,8 +46,56 @@ const getVehicleById = async (vehicleId: string) => {
 	return result;
 };
 
+const updateVehicle = async (
+	vehicleId: string,
+	payload: Record<string, unknown>,
+) => {
+	const vehicleExists = await getVehicleById(vehicleId);
+	if (vehicleExists.rows.length === 0) {
+		return vehicleExists;
+	}
+
+	// Merge existing vehicle data with the new payload
+	// This ensures that only provided fields are updated
+	console.log("Existing vehicle data:", vehicleExists.rows[0]);
+	console.log("payload data:", payload);
+	const updatedVehicle = { ...vehicleExists.rows[0], ...payload };
+	console.log("Updated vehicle data:", updatedVehicle);
+	const {
+		vehicle_name,
+		type,
+		registration_number,
+		daily_rent_price,
+		availability_status,
+	} = updatedVehicle;
+
+	const result = await pool.query(
+		`
+			UPDATE vehicles
+			SET vehicle_name = $1,
+				type = $2,
+				registration_number = $3,
+				daily_rent_price = $4,
+				availability_status = $5
+			WHERE id = $6
+			RETURNING *
+		`,
+		[
+			vehicle_name,
+			type,
+			registration_number,
+			daily_rent_price,
+			availability_status,
+			vehicleId,
+		],
+	);
+
+	return result;
+};
+
 export const vehicleService = {
 	createVehicle,
 	getAllVehicles,
 	getVehicleById,
+	updateVehicle,
 };
