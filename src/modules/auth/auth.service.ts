@@ -39,13 +39,14 @@ const loginUser = async (payload: Record<string, unknown>) => {
 	// JWT => Header.Payload.Signature
 	const token = jwt.sign(
 		{
+			id: user.id,
 			name: user.name,
 			email: user.email,
 			role: user.role,
 		},
 		CONFIG.JWT_SECRET as string,
 		{
-			expiresIn: "1h",
+			expiresIn: "7d",
 		},
 	);
 

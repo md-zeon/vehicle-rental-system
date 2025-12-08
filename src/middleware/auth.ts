@@ -30,6 +30,8 @@ const authorize = (...roles: Role[]) => {
 				});
 			}
 
+			req.user = decoded;
+
 			next();
 		} catch (error: any) {
 			res.status(401).json({
